@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>专业在线咨询</title>
     
-    <!-- 🟢 1. 正确引入您的 SaleSmartly 账户专用安装代码 -->
+    <!-- 🟢 1. 顶部保留：SaleSmartly 客服账户插件系统代码 -->
     <script src="https://plugin-code.salesmartly.com/js/project_902224_878335_1791728845.js"></script>
 
     <style>
@@ -152,16 +152,16 @@
             box-shadow: 0 4px 12px rgba(254, 229, 0, 0.4);
         }
 
-        /* SaleSmartly 网页在线客服主按钮样式 */
+        /* 网页在线客服主按钮样式（渐变科技蓝） */
         .btn-ss-container {
             width: 100%;
             margin-top: 12px;
         }
         
         .btn-ss {
-            background: linear-gradient(135deg, #2f54eb, #1890ff);
+            background: linear-gradient(135deg, #007bff, #0056b3);
             color: white;
-            box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
             width: 100%;
             border-radius: 30px;
             padding: 14px 10px;
@@ -235,7 +235,7 @@
         
         .icon-ss {
             background: white;
-            color: #1890ff;
+            color: #007bff;
             font-size: 13px;
         }
     </style>
@@ -280,10 +280,10 @@
 
             <!-- 网页在线客服主按钮 -->
             <div class="btn-ss-container">
-                <!-- 🟢 2. 点击直接执行多重指令，百分之百唤起在线客服窗 -->
-                <button onclick="executeSaleSmartlyChat()" class="btn-ss">
+                <!-- 🟢 2. 中部主按钮：完美绑定指向您的 Tawk.to 客服直达聊天链接 -->
+                <a href="https://tawk.to/chat/6acc7db869318f34c90da1e0/1k4ncm7cr?layout=modern" class="btn-ss" target="_blank">
                     <span class="brand-icon icon-ss">💬</span>网页在线客服 (免加好友)
-                </button>
+                </a>
             </div>
         </div>
     </div>
@@ -301,34 +301,29 @@
         </a>
     </div>
 
-    <!-- 🟢 3. 完美兼容 SaleSmartly 组件管道的唤起控制脚本 -->
+    <!-- 🟢 3. 底部保留：SaleSmartly 原生管道初始化和缓存优化控制脚本 -->
     <script type="text/javascript">
-        function executeSaleSmartlyChat() {
-            if (typeof window.ssq === 'function') {
-                try {
-                    // 依次推送：确保聊天组件可见并强制弹窗打开
-                    window.ssq('chat:show');
-                    window.ssq('chat:open');
-                } catch(e) {
-                    fallbackClick();
-                }
-            } else {
-                fallbackClick();
+        (function(d, s, id, w, n) {
+            w.__ssc = w.__ssc || {};
+            w.__ssc.license = 'g21yr05';
+            if (w.ssq) return false;
+            n = w.ssq = function() {n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            n.push=n;n.loaded=!0;n.queue=[];
+            var js, sjs = d.getElementsByTagName(s);
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            var deUrl = atob('aHR0cHM6Ly9wbHVnaW4tY29kZS5zYWxlc21hcnRseS5jb20='), path = '/chat/widget-v2/code/install.js';
+            var cs = d.currentScript, csUrl = deUrl;
+            if (cs && cs.src) {var scriptURL = new URL(cs.src); csUrl = scriptURL.origin;}
+            js.src = csUrl + path;
+            sjs.parentNode.insertBefore(js, sjs);
+            js.onerror = function() {
+                if (d.getElementById(id)) {var el = d.getElementById(id); el.parentNode.removeChild(el);}
+                var newJs = d.createElement(s); newJs.id = id;
+                newJs.src = deUrl + path;
+                sjs.parentNode.insertBefore(newJs, sjs);
             }
-        }
-
-        // 兜底策略：如果网络慢或者脚本被拦截，寻找DOM挂件并模拟物理点击
-        function fallbackClick() {
-            var ssIcon = document.getElementById('ss-chat-widget') || 
-                         document.querySelector('[id*="ss-chat"]') || 
-                         document.querySelector('[class*="salesmartly"]') ||
-                         document.querySelector('iframe[src*="salesmartly"]');
-            if (ssIcon) {
-                ssIcon.click();
-            } else {
-                alert('在线客服系统连接中，请稍候点击右下角图标或刷新重试。');
-            }
-        }
+        }(document, 'script', 'ss-chat', window));
     </script>
 
 </body>
