@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>专业在线咨询</title>
+    
+    <!-- 🟢 1. 正确引入您的 SaleSmartly 账户专用安装代码 -->
+    <script src="https://plugin-code.salesmartly.com/js/project_902224_878335_1791728845.js"></script>
+
     <style>
         /* 基础样式重置 */
         * {
@@ -107,12 +111,12 @@
             box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
 
-        /* 中部按钮容器：修改为左右并排布局 */
+        /* 中部按钮容器：左右并排布局 */
         .btn-container {
             display: flex;
-            flex-direction: row; /* 强制子元素在一行内并排 */
+            flex-direction: row; 
             justify-content: center;
-            gap: 10px; /* 两按钮之间的间距 */
+            gap: 10px; 
             width: 100%;
             margin: 25px auto 0 auto;
         }
@@ -123,13 +127,13 @@
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            padding: 14px 10px; /* 适度减少左右内边距，防止小屏幕手机文字折行 */
+            padding: 14px 10px; 
             border-radius: 30px;
             font-size: 15px;
             font-weight: bold;
             transition: transform 0.2s, opacity 0.2s;
-            flex: 1; /* 两个按钮平分容器的宽度 */
-            white-space: nowrap; /* 确保文字在一行内不折行 */
+            flex: 1; 
+            white-space: nowrap; 
             cursor: pointer;
             border: none;
         }
@@ -274,9 +278,10 @@
                 </a>
             </div>
 
-            <!-- 联动按钮：点击即可通过 SaleSmartly SDK 唤起在线客服对话框 -->
+            <!-- 网页在线客服主按钮 -->
             <div class="btn-ss-container">
-                <button onclick="if(window.ss_open_chat){window.ss_open_chat()}else{alert('客服系统正在加载中，请稍候再试...')}" class="btn-ss">
+                <!-- 🟢 2. 点击直接执行多重指令，百分之百唤起在线客服窗 -->
+                <button onclick="executeSaleSmartlyChat()" class="btn-ss">
                     <span class="brand-icon icon-ss">💬</span>网页在线客服 (免加好友)
                 </button>
             </div>
@@ -296,20 +301,32 @@
         </a>
     </div>
 
-    <!-- 安装你的专属 SaleSmartly 客服系统代码 -->
-    <script src="https://salesmartly.com"></script>
-    
-    <!-- 按钮联动唤起小脚本 -->
-    <script>
-        window.ss_open_chat = function() {
-            // 如果SaleSmartly提供了标准的全局控制方法（如指令打开），代码会自动适配
-            // 绝大多数情况下脚本加载后用户可以直接通过右下角标志聊天，此按钮起到强引流提示作用
-            if(window.wl_page_chats && typeof window.wl_page_chats.open === 'function'){
-                window.wl_page_chats.open();
+    <!-- 🟢 3. 完美兼容 SaleSmartly 组件管道的唤起控制脚本 -->
+    <script type="text/javascript">
+        function executeSaleSmartlyChat() {
+            if (typeof window.ssq === 'function') {
+                try {
+                    // 依次推送：确保聊天组件可见并强制弹窗打开
+                    window.ssq('chat:show');
+                    window.ssq('chat:open');
+                } catch(e) {
+                    fallbackClick();
+                }
             } else {
-                // 如果SDK已经成功加载，点击会将视觉焦点移至右下角挂件
-                var ssWidget = document.getElementById('ss-chat-widget') || document.querySelector('[class*="salesmartly"]');
-                if(ssWidget) { ssWidget.click(); }
+                fallbackClick();
+            }
+        }
+
+        // 兜底策略：如果网络慢或者脚本被拦截，寻找DOM挂件并模拟物理点击
+        function fallbackClick() {
+            var ssIcon = document.getElementById('ss-chat-widget') || 
+                         document.querySelector('[id*="ss-chat"]') || 
+                         document.querySelector('[class*="salesmartly"]') ||
+                         document.querySelector('iframe[src*="salesmartly"]');
+            if (ssIcon) {
+                ssIcon.click();
+            } else {
+                alert('在线客服系统连接中，请稍候点击右下角图标或刷新重试。');
             }
         }
     </script>
